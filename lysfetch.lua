@@ -10,7 +10,7 @@
 
 local version_major = 1
 local version_minor = 2
-local version_patch = 1
+local version_patch = 4
 
 -- Foreground colors
 local colorRed     = "\x1b[31m"
@@ -396,13 +396,14 @@ function CheckConvertTime(p_seconds)
 
 	if p_seconds > 60 then
 		minutes = math.floor(p_seconds / 60)
-
-		if hours ~= nil then
-			minutes = minutes - hours * 60
-		end
 	end
 
 	if minutes ~= nil then
+		if hours ~= nil then
+			minutes = minutes - hours * 60
+			p_seconds = p_seconds - hours * 3600
+		end
+
 		p_seconds = p_seconds - minutes * 60
 	end
 

@@ -9,3 +9,4 @@ All the versions and the changes they bring
 - `1.2.0`: Ascii art multicolor
 - `1.2.1`: Label effects
 - `1.2.3`: Few fixes, made memory and uptime values better
+- `1.2.4`: Uptime seconds bug fixed
