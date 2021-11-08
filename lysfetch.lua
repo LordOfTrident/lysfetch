@@ -372,17 +372,88 @@ if terminfo:sub(#terminfo - 5, #terminfo) == "8color" then
 	has16Colors = false
 end
 
+function CheckConvertkBToMB(p_kB)
+	local p_kB = tonumber(p_kB)
+
+	if p_kB > 1024 then
+		return tostring(
+			math.floor(p_kB / 1024 + 0.5)
+		) .. "MB"
+	end
+
+	return tostring(p_kB) .. "kB"
+end
+
+function CheckConvertTime(p_seconds)
+	p_seconds = tonumber(p_seconds)
+
+	local hours = nil
+	local minutes = nil
+
+	if p_seconds > 3600 then
+		hours = math.floor(p_seconds / 3600)
+	end
+
+	if p_seconds > 60 then
+		minutes = math.floor(p_seconds / 60)
+
+		if hours ~= nil then
+			minutes = minutes - hours * 60
+		end
+	end
+
+	if minutes ~= nil then
+		p_seconds = p_seconds - minutes * 60
+	end
+
+	return hours, minutes, p_seconds
+end
+
+local totalMemory = CheckConvertkBToMB(
+	GetFileInfoAt("/proc/meminfo", 1, " ", 2)
+)
+
+local freeMemory = CheckConvertkBToMB(
+	GetFileInfoAt("/proc/meminfo", 3, " ", 2)
+)
+
+local totalSwap = CheckConvertkBToMB(
+	GetFileInfoAt("/proc/meminfo", 15, " ", 2)
+)
+
+local freeSwap = CheckConvertkBToMB(
+	GetFileInfoAt("/proc/meminfo", 16, " ", 2)
+)
+
+local
+	uptimeHours,
+	uptimeMinutes,
+	uptimeSeconds = CheckConvertTime(
+		GetFileInfoAt("/proc/uptime", nil, ".", 1)
+	)
+
+local uptime = ""
+if uptimeHours ~= nil then
+	uptime = uptime .. tostring(uptimeHours) .. "h "
+end
+
+if uptimeMinutes ~= nil then
+	uptime = uptime .. tostring(uptimeMinutes) .. "m "
+end
+
+uptime = uptime .. tostring(uptimeSeconds) .. "s"
+
 -- Main lysfetch output
 print(colorReset .. indentation .. title)
 print(AsciiArt() .. ("-"):rep(#title))
-print(AsciiArt() .. Label("OS: ")           .. GetFileInfoAt("/etc/os-release", 3, "=", 2))
+print(AsciiArt() .. Label("OS: ")           .. GetFileInfoAt("/etc/os-release", 1, "=", 2))
 print(AsciiArt() .. Label("Kernel: ")       .. GetFileInfoAt("/proc/sys/kernel/osrelease"))
 print(AsciiArt() .. Label("CPU: ")          .. GetFileInfoAt("/proc/cpuinfo", 5, ":", 2))
-print(AsciiArt() .. Label("Total memory: ") .. GetFileInfoAt("/proc/meminfo", 1, " ", 2) .. "kB")
-print(AsciiArt() .. Label("Free memory: ")  .. GetFileInfoAt("/proc/meminfo", 2, " ", 2) .. "kB")
-print(AsciiArt() .. Label("Total swap: ")   .. GetFileInfoAt("/proc/meminfo", 15, " ", 2) .. "kB")
-print(AsciiArt() .. Label("Free swap: ")    .. GetFileInfoAt("/proc/meminfo", 16, " ", 2) .. "kB")
-print(AsciiArt() .. Label("Uptime: ")       .. GetFileInfoAt("/proc/uptime", nil, ".", 1) .. "s")
+print(AsciiArt() .. Label("Total memory: ") .. totalMemory)
+print(AsciiArt() .. Label("Free memory: ")  .. freeMemory)
+print(AsciiArt() .. Label("Total swap: ")   .. totalSwap)
+print(AsciiArt() .. Label("Free swap: ")    .. freeSwap)
+print(AsciiArt() .. Label("Uptime: ")       .. uptime)
 print(AsciiArt() .. Label("Shell: ")        .. GetEnvVariable("SHELL"))
 print(AsciiArt() .. Label("Hostname: ")     .. GetFileInfoAt("/etc/hostname"))
 print(AsciiArt() .. Label("User: ")         .. GetEnvVariable("USER"))

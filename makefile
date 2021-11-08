@@ -1,8 +1,8 @@
-install: ${BINARY}
+install: lysfetch.lua
 	@cp lysfetch.lua /usr/bin/lysfetch
 	@chmod +x /usr/bin/lysfetch
 
-clean:
+clean: /usr/bin/lysfetch
 	@echo Cleaning...
 	@sudo rm /usr/bin/lysfetch
 	@echo Cleaned succesfully
