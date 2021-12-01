@@ -144,7 +144,7 @@ function GetEffect(p_effect)
 end
 
 -- Parameters checking
-for i,v in pairs(arg) do
+for i, v in pairs(arg) do
 	if i == 0 or v == "/usr/bin/lua" then
 	elseif v == "-v" or v == "--version" then
 		print(
@@ -329,7 +329,7 @@ end
 -- Replace color IDs with escape sequences but
 -- keep the original version stored
 local asciiArtUnmodified = {}
-for i,v in pairs(asciiArt) do
+for i, v in pairs(asciiArt) do
 	table.insert(asciiArtUnmodified, v)
 
 	v = v:replace("${0}", colorReset)
@@ -467,7 +467,7 @@ end
 io.write("\n" .. indentation)
 
 -- Output colors
-for i,v in pairs(colors) do
+for i, v in pairs(colors) do
 	io.write(v .. colorBar)
 
 	if i == #colors / 2 then
