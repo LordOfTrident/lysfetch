@@ -1,5 +1,5 @@
 <p align="center">
-	<img width="100px" src="res/logo.png"/>
+	<img width="250px" src="res/logo.png"/>
 	<h1 align="center">lysfetch</h2>
 	<p align="center">A system information fetch program written in lua</p>
 </p>
