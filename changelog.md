@@ -11,3 +11,5 @@ All the versions and the changes they bring
 - `1.2.3`: Few fixes, made memory and uptime values better
 - `1.2.4`: Uptime seconds bug fixed
 - `1.2.5`: Little formatting fix :) (perfectionist moment)
+- `1.9.0`: Rewrote lysfetch
+- `2.0.0`: Fixed a few bugs, updated README.md
